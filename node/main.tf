@@ -24,11 +24,6 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vms" {
   name      = local.vm_name
   node_name = "pve"
 
-    user_account {
-      username = "ubuntu"
-      # Replace this with SSH Key
-      password = "ubuntu"  
-    }
 
   disk {
     datastore_id = "local-lvm"
@@ -41,6 +36,11 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vms" {
 
     initialization {
 
+    user_account {
+    username = "ubuntu"
+    # Replace this with SSH Key
+    password = "ubuntu"  
+
     ip_config {
       ipv4 {
         address = "dhcp"
@@ -52,7 +52,7 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vms" {
     bridge = "vmbr0"
   }
 }
-
+}
 output "vm_ipv4_address" {
   value = proxmox_virtual_environment_vm.ubuntu_vm.ipv4_addresses[1][0]
 }
