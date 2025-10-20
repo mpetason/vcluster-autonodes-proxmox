@@ -1,18 +1,18 @@
 terraform {
   required_providers {
     proxmox = {
-      source = "bpg/proxmox"
+      source  = "bpg/proxmox"
       version = "0.85.1"
     }
   }
 }
 
 provider "proxmox" {
-    insecure = true
+  insecure = true
 }
 
 locals {
-  domain  = "vcluster-demo.local"
+  domain = "vcluster-demo.local"
 }
 
 resource "random_id" "vm_suffix" {
@@ -34,24 +34,24 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vms" {
     size         = 200
   }
 
-    initialization {
-
-    user_account {
-    username = "ubuntu"
-    # Replace this with SSH Key
-    password = "ubuntu"  
-
-    ip_config {
-      ipv4 {
-        address = "dhcp"
-      }
-    }
-}
-
   network_device {
     bridge = "vmbr0"
   }
-}
+
+  initialization {
+
+    user_account {
+      username = "ubuntu"
+      # Replace this with SSH Key
+      password = "ubuntu"
+
+      ip_config {
+        ipv4 {
+          address = "dhcp"
+        }
+      }
+    }
+  }
 }
 output "vm_ipv4_address" {
   value = proxmox_virtual_environment_vm.ubuntu_vm.ipv4_addresses[1][0]
