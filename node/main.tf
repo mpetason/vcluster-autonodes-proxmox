@@ -15,13 +15,20 @@ provider "proxmox" {
   }
 }
 
+resource "random_string" "vm_name_suffix" {
+  length  = 8
+  special = false
+  upper   = false
+  number  = true
+}
+
 locals {
   domain = "vcluster-demo.local"
 }
 
 resource "proxmox_virtual_environment_vm" "ubuntu_vms" {
 
-  name      = local.vm_name
+  name      = "my-vm-${random_string.vm_name_suffix.result}"
   node_name = "pve"
 
   initialization {
