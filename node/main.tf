@@ -9,7 +9,7 @@ terraform {
 
 provider "proxmox" {
   endpoint = "https://192.168.86.9:8006/"
-  
+
   ssh {
     agent = true
   }
@@ -17,10 +17,6 @@ provider "proxmox" {
 
 locals {
   domain = "vcluster-demo.local"
-}
-
-resource "random_id" "vm_suffix" {
-  byte_length = 4
 }
 
 resource "proxmox_virtual_environment_vm" "ubuntu_vms" {
