@@ -20,11 +20,19 @@ resource "random_string" "vm_name_suffix" {
   length  = 8
   special = false
   upper   = false
-  number  = true
+  numeric  = true
 }
 
-locals {
-  domain = "vcluster-demo.local"
+resource "proxmox_virtual_environment_file" "user_data_cloud_config" {
+  content_type = "snippets"
+  datastore_id = "local"
+  node_name    = "pve"
+
+  source_raw {
+    data = var.vcluster.userData
+
+    file_name = "user-data-cloud-config.yaml"
+  }
 }
 
 resource "proxmox_virtual_environment_vm" "ubuntu_vms" {
@@ -33,7 +41,7 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vms" {
   node_name = "pve"
 
   initialization {
-
+    user_data_file_id = proxmox_virtual_environment_file.user_data_cloud_config.id
     user_account {
       username = "ubuntu"
       # Replace this with SSH Key
@@ -44,6 +52,14 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vms" {
         address = "dhcp"
       }
     }
+  }
+  cpu {
+    cores = 4
+    sockets = 1
+    type = "host"
+  }
+  memory {
+    dedicated = 16384
   }
 
   disk {
