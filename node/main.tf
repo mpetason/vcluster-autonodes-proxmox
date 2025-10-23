@@ -64,7 +64,7 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vms" {
     type = "host"
   }
   memory {
-    dedicated = 8192
+    dedicated = 16384
   }
 
   disk {
