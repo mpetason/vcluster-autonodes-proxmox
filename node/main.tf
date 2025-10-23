@@ -8,15 +8,10 @@ terraform {
 }
 
 provider "proxmox" {
-  endpoint = var.endpoint
-  username = var.user
-  password = var.password
   insecure = true
 
   ssh {
     agent = true
-    username = var.ssh_user
-    password = var.ssh_password
   }
 }
 
