@@ -32,9 +32,11 @@ resource "proxmox_virtual_environment_file" "user_data_cloud_config" {
     data = <<-EOT
       #cloud-config
       hostname: "vcluster-${var.vcluster.nodeClaim.metadata.name}"
+      chpasswd:
+        expire: false
+        users:
+        - {name: ubuntu, password: ubuntu, type: text}
       ssh_pwauth: true
-      password: ubuntu
-      expire: false
 
       ${replace(var.vcluster.userData, "#cloud-config", "")}
     EOT
@@ -71,7 +73,7 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vms" {
     interface    = "virtio0"
     iothread     = true
     discard      = "on"
-    size         = 200
+    size         = 120
   }
 
   network_device {
