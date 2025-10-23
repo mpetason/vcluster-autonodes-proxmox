@@ -32,7 +32,6 @@ resource "proxmox_virtual_environment_file" "user_data_cloud_config" {
     data = <<-EOT
       #cloud-config
       hostname: ${var.vcluster.nodeClaim.metadata.name}
-      manage_etc_hosts: true
       ssh_pwauth: true
       password: ubuntu
 
