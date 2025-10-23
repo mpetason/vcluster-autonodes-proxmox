@@ -34,6 +34,7 @@ resource "proxmox_virtual_environment_file" "user_data_cloud_config" {
       hostname: ${var.vcluster.nodeClaim.metadata.name}
       manage_etc_hosts: true
       ssh_pwauth: true
+      password: ubuntu
 
       ${replace(var.vcluster.userData, "#cloud-config", "")}
     EOT
@@ -49,11 +50,6 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vms" {
 
   initialization {
     user_data_file_id = proxmox_virtual_environment_file.user_data_cloud_config.id
-    user_account {
-      username = "ubuntu"
-      # Replace this with SSH Key
-      password = "ubuntu"
-    }
     ip_config {
       ipv4 {
         address = "dhcp"
