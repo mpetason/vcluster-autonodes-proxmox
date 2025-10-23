@@ -53,12 +53,12 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vms" {
     }
   }
   cpu {
-    cores = 4
+    cores = 2
     sockets = 1
     type = "host"
   }
   memory {
-    dedicated = 16384
+    dedicated = 8192
   }
 
   disk {
