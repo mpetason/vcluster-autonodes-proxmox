@@ -59,7 +59,7 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vms" {
     }
   }
   cpu {
-    cores = 2
+    cores = 4
     sockets = 1
     type = "host"
   }
