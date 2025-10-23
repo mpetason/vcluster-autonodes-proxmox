@@ -8,8 +8,7 @@ terraform {
 }
 
 provider "proxmox" {
-  insecure = true
-
+  endpoint = "https://192.168.86.9:8006/"
   ssh {
     agent = true
   }
