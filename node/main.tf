@@ -27,8 +27,16 @@ resource "proxmox_virtual_environment_file" "user_data_cloud_config" {
   datastore_id = "local"
   node_name    = "pve"
 
+
   source_raw {
-    data = var.vcluster.userData
+    data = <<-EOT
+      #cloud-config
+      hostname: ${var.vcluster.nodeClaim.metadata.name}
+      manage_etc_hosts: true
+      ssh_pwauth: true
+
+      ${replace(var.vcluster.userData, "#cloud-config", "")}
+    EOT
 
     file_name = "user-data-cloud-config.yaml"
   }
