@@ -31,9 +31,10 @@ resource "proxmox_virtual_environment_file" "user_data_cloud_config" {
   source_raw {
     data = <<-EOT
       #cloud-config
-      hostname: ${var.vcluster.nodeClaim.metadata.name}
+      hostname: "vcluster-${var.vcluster.nodeClaim.metadata.name}"
       ssh_pwauth: true
       password: ubuntu
+      expire: false
 
       ${replace(var.vcluster.userData, "#cloud-config", "")}
     EOT
@@ -44,7 +45,7 @@ resource "proxmox_virtual_environment_file" "user_data_cloud_config" {
 
 resource "proxmox_virtual_environment_vm" "ubuntu_vms" {
 
-  name      = "${var.vcluster.nodeClaim.metadata.name}-${random_string.vm_name_suffix.result}"
+  name      = "vcluster-${var.vcluster.nodeClaim.metadata.name}-${random_string.vm_name_suffix.result}"
   node_name = "pve"
 
   initialization {
