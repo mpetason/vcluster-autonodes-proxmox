@@ -48,7 +48,7 @@ resource "proxmox_virtual_environment_file" "user_data_cloud_config" {
 resource "proxmox_virtual_environment_vm" "ubuntu_vms" {
 
   name      = "vcluster-${var.vcluster.nodeClaim.metadata.name}-${random_string.vm_name_suffix.result}"
-  node_name = "pve"
+  node_name = "pve2"
 
   initialization {
     user_data_file_id = proxmox_virtual_environment_file.user_data_cloud_config.id
