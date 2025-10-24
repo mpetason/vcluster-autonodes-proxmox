@@ -59,12 +59,11 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vms" {
     }
   }
   cpu {
-    cores = 4
-    sockets = 1
+    cores = var.vcluster.nodeType.spec.resources.cpu
     type = "host"
   }
   memory {
-    dedicated = 16384
+    dedicated = var.vcluster.nodeType.spec.resources.memory
   }
 
   disk {
