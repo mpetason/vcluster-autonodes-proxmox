@@ -51,7 +51,7 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vms" {
   node_name = "pve2"
 
   initialization {
-    user_data_file_id = proxmox_virtual_environment_file.${random_string.vm_name_suffix.result}_user_data_cloud_config.id
+    user_data_file_id = "proxmox_virtual_environment_file.${random_string.vm_name_suffix.result}_user_data_cloud_config.id"
     ip_config {
       ipv4 {
         address = "dhcp"
