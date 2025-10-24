@@ -52,7 +52,8 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vms" {
 
   initialization {
     
-    user_data_file_name = proxmox_virtual_environment_file.user_data_cloud_config.file_name
+    user_data_file_id = proxmox_virtual_environment_file.user_data_cloud_config
+
     ip_config {
       ipv4 {
         address = "dhcp"
