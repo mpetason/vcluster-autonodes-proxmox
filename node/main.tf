@@ -41,7 +41,7 @@ resource "proxmox_virtual_environment_file" "user_data_cloud_config" {
       ${replace(var.vcluster.userData, "#cloud-config", "")}
     EOT
 
-    file_name = ${var.vcluster.nodeClaim.metadata.name}-"user-data-cloud-config.yaml"
+    file_name = "${var.vcluster.nodeClaim.metadata.name}-user-data-cloud-config.yaml"
   }
 }
 
@@ -51,7 +51,7 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vms" {
   node_name = "pve2"
 
   initialization {
-    user_data_file_id = proxmox_virtual_environment_file.${var.vcluster.nodeClaim.metadata.name}-user_data_cloud_config.id
+    user_data_file_id = proxmox_virtual_environment_file.${var.vcluster.nodeClaim.metadata.name}_user_data_cloud_config.id
     ip_config {
       ipv4 {
         address = "dhcp"
