@@ -45,14 +45,31 @@ resource "proxmox_virtual_environment_file" "user_data_cloud_config" {
   }
 }
 
+resource "proxmox_virtual_environment_file" "meta_data_cloud_config" {
+  content_type = "snippets"
+  datastore_id = "local"
+  node_name    = "pve2"
+
+  source_raw {
+    data = <<-EOF
+    #cloud-config
+    local-hostname: "vcluster-${var.vcluster.nodeClaim.metadata.name}"
+    EOF
+
+    file_name = "meta-data-cloud-config.yaml"
+  }
+}
+
 resource "proxmox_virtual_environment_vm" "ubuntu_vms" {
   
   name      = "vcluster-${var.vcluster.nodeClaim.metadata.name}-${random_string.vm_name_suffix.result}"
   node_name = "pve2"
 
   initialization {
-    vm_id = ${random_string.vm_name_suffix.result}
-    user_data_file_id = "proxmox_virtual_environment_file.{$vm_id}_user_data_cloud_config.id"
+    
+    user_data_file_id = proxmox_virtual_environment_file.user_data_cloud_config.id
+    meta_data_file_id = proxmox_virtual_environment_file.meta_data_cloud_config.id
+
     ip_config {
       ipv4 {
         address = "dhcp"
