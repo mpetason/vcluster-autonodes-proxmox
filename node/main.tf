@@ -41,22 +41,7 @@ resource "proxmox_virtual_environment_file" "user_data_cloud_config" {
       ${replace(var.vcluster.userData, "#cloud-config", "")}
     EOT
 
-    file_name = "user-data-cloud-config.yaml"
-  }
-}
-
-resource "proxmox_virtual_environment_file" "meta_data_cloud_config" {
-  content_type = "snippets"
-  datastore_id = "local"
-  node_name    = "pve2"
-
-  source_raw {
-    data = <<-EOF
-    #cloud-config
-    local-hostname: "vcluster-${var.vcluster.nodeClaim.metadata.name}"
-    EOF
-
-    file_name = "meta-data-cloud-config.yaml"
+    file_name = "${random_string.vm_name_suffix.result}-user-data-cloud-config.yaml"
   }
 }
 
@@ -67,9 +52,7 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vms" {
 
   initialization {
     
-    user_data_file_id = proxmox_virtual_environment_file.user_data_cloud_config.id
-    meta_data_file_id = proxmox_virtual_environment_file.meta_data_cloud_config.id
-
+    user_data_file_id = user_data_file_name = proxmox_virtual_environment_file.user_data_cloud_config.file_name
     ip_config {
       ipv4 {
         address = "dhcp"
