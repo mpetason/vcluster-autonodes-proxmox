@@ -63,7 +63,7 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vms" {
     type = "host"
   }
   memory {
-    dedicated = var.vcluster.nodeType.spec.resources.memory
+    dedicated = trim(var.vcluster.nodeType.spec.resources.memory, "M")
   }
 
   disk {
