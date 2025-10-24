@@ -25,7 +25,7 @@ resource "random_string" "vm_name_suffix" {
 resource "proxmox_virtual_environment_file" "user_data_cloud_config" {
   content_type = "snippets"
   datastore_id = "local"
-  node_name    = "pve"
+  node_name    = "pve2"
 
 
   source_raw {
