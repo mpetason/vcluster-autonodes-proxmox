@@ -41,7 +41,7 @@ resource "proxmox_virtual_environment_file" "user_data_cloud_config" {
       ${replace(var.vcluster.userData, "#cloud-config", "")}
     EOT
 
-    file_name = "${random_string.vm_name_suffix.result}-user-data-cloud-config.yaml"
+    file_name = "user-data-cloud-config.yaml"
   }
 }
 
