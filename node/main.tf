@@ -84,6 +84,9 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vms" {
     cores = var.vcluster.nodeType.spec.resources.cpu
     type = "host"
   }
+  
+  # We specify Megabytes in vCluster Platform which will add an M to the amount, we need to trim that value
+  # so that we get the correct value the provider expects.
   memory {
     dedicated = trim(var.vcluster.nodeType.spec.resources.memory, "M")
   }
