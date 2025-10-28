@@ -5,8 +5,6 @@ This repository contains Terraform configurations for automatically provisioning
 ## Prerequisites
 
 - Proxmox Virtual Environment
-- Terraform installed
-- SSH agent running (for authentication)
 - Ubuntu cloud image (noble-server-cloudimg-amd64.img) uploaded to Proxmox
 - Snippets enabled on the Proxmox datastore
 
