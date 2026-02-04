@@ -33,7 +33,7 @@ resource "random_string" "vm_name_suffix" {
 resource "proxmox_virtual_environment_file" "user_data_cloud_config" {
   content_type = "snippets"
   datastore_id = "local"
-  node_name    = "pve2"
+  node_name    = "ai"
 
   # We are going to set the hostname of the VM here, this will be used 
   # as the node name when it is checked in. Also, for testing we enable the
@@ -63,7 +63,7 @@ resource "proxmox_virtual_environment_file" "user_data_cloud_config" {
 resource "proxmox_virtual_environment_vm" "ubuntu_vms" {
   
   name      = "vcluster-${var.vcluster.nodeClaim.metadata.name}-${random_string.vm_name_suffix.result}"
-  node_name = "pve2"
+  node_name = "ai"
 
   initialization {
 
