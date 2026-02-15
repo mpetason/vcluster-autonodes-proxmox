@@ -1,6 +1,6 @@
 # vCluster Autonodes Proxmox
 
-This repository contains Terraform configurations for automatically provisioning virtual machines in Proxmox for use with vCluster. The setup allows for dynamic node creation and management in a Proxmox environment.
+This repository contains Terraform configurations for automatically provisioning virtual machines in Proxmox for use with vCluster Platform. The setup allows for dynamic node creation and management in a Proxmox environment.
 
 ## Prerequisites
 
@@ -10,7 +10,7 @@ This repository contains Terraform configurations for automatically provisioning
 
 ## Provider Configuration
 
-The configuration uses the `bpg/proxmox` Terraform provider version 0.85.1. The provider is configured to connect to a Proxmox instance with the following settings:
+The configuration uses the `bpg/proxmox` Terraform provider version 0.94.0. The provider is configured to connect to a Proxmox instance with the following settings:
 
 ```hcl
 provider "proxmox" {
@@ -53,6 +53,40 @@ provider "proxmox" {
   - Discard enabled
   - Virtio interface
 
+## Usage with vCluster Platform
+
+This configuration is designed to work with vCluster Platform as a **template** for auto-nodes provisioning, where:
+- Node types are defined in vCluster Platform
+- Resource specifications (CPU, memory) are pulled from vCluster variables
+- Node naming follows vCluster conventions
+
+### Complete vCluster Platform Template Example
+
+To use this Proxmox auto-nodes configuration, create a vCluster **template** with the following structure:
+
+```yaml
+controlPlane:
+  service:
+    spec:
+      type: LoadBalancer
+privateNodes:
+  enabled: true
+  autoNodes:
+    - provider: proxmox
+      dynamic:
+        - name: my-node-pool
+networking:
+  podCIDR: 10.64.0.0/16
+  serviceCIDR: 10.128.0.0/16
+```
+
+## Notes
+
+- The configuration assumes Proxmox node name "ai" - adjust as needed
+- Cloud-init snippets must be enabled on the local datastore
+- The Ubuntu cloud image must be pre-loaded in the Proxmox environment
+- Default network configuration uses DHCP, but can be modified for static IP addressing if required
+
 ## Security Considerations
 
 1. The default configuration includes a test user (ubuntu) with password authentication enabled. For production:
@@ -62,17 +96,3 @@ provider "proxmox" {
 2. The provider is configured to accept insecure SSL certificates. In production:
    - Use valid SSL certificates
    - Remove the `insecure = true` setting
-
-## Usage with vCluster
-
-This configuration is designed to work with vCluster Platform, where:
-- Node types are defined in vCluster Platform
-- Resource specifications (CPU, memory) are pulled from vCluster variables
-- Node naming follows vCluster conventions
-
-## Notes
-
-- The configuration assumes Proxmox node name "pve2" - adjust as needed
-- Cloud-init snippets must be enabled on the local datastore
-- The Ubuntu cloud image must be pre-loaded in the Proxmox environment
-- Default network configuration uses DHCP, but can be modified for static IP addressing if required
