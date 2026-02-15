@@ -1,6 +1,6 @@
 # vCluster Autonodes Proxmox
 
-This repository contains Terraform configurations for automatically provisioning virtual machines in Proxmox for use with vCluster. The setup allows for dynamic node creation and management in a Proxmox environment.
+This repository contains Terraform configurations for automatically provisioning virtual machines in Proxmox for use with vCluster Platform. The setup allows for dynamic node creation and management in a Proxmox environment.
 
 ## Prerequisites
 
@@ -53,16 +53,16 @@ provider "proxmox" {
   - Discard enabled
   - Virtio interface
 
-## Usage with vCluster
+## Usage with vCluster Platform
 
-This configuration is designed to work with vCluster Platform, where:
+This configuration is designed to work with vCluster Platform as a **template** for auto-nodes provisioning, where:
 - Node types are defined in vCluster Platform
 - Resource specifications (CPU, memory) are pulled from vCluster variables
 - Node naming follows vCluster conventions
 
-### Complete vCluster Configuration Example
+### Complete vCluster Platform Template Example
 
-To use this Proxmox auto-nodes configuration, create a vCluster configuration file with the following structure:
+To use this Proxmox auto-nodes configuration, create a vCluster **template** with the following structure:
 
 ```yaml
 controlPlane:
